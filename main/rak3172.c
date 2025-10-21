@@ -1,5 +1,4 @@
 #include <stdio.h>
-
 #include <string.h>
 #include "driver/uart.h"
 #include "driver/gpio.h"
@@ -94,12 +93,12 @@ void app_main(void)
     send_at("AT+NJM=1\r\n", 500);    
     send_at("AT+CLASS=A\r\n", 500);  
     send_at("AT+BAND=6\r\n", 500);
-    send_at("AT+TXP=6\r\n", 500);
+    send_at("AT+TXP=20\r\n", 500);
     send_at("AT+DEVEUI=5E9D1E0857CF25F1\r\n", 500);  
     send_at("AT+APPEUI=5E9D1E0857CF25F1\r\n", 500);  
     send_at("AT+APPKEY=F921D50CD7D02EE3C5E6142154F274B2\r\n", 500);     
     send_at("AT+JOIN=1:0:10:8\r\n", 500);
-    send_at("AT+SEND=2:12345678\r\n", 500);   
+    //send_at("AT+SEND=2:12345678\r\n", 500);   
 
     while (true) {
         ESP_ERROR_CHECK(am2302_read_temp_humi(sensor, &temperature, &humidity));
