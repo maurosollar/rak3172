@@ -1,0 +1,10 @@
+dependencies:
+  idf: '>=5.1'
+description: Driver for AM2302 (DHT22) Sensor (RMT backend)
+issues: https://github.com/suda-morris/am2302_rmt/issues
+repository: git://github.com/suda-morris/am2302_rmt.git
+repository_info:
+  commit_sha: 937196ab0a22331a96c3ab925ad5b1b0f04f7bab
+  path: .
+url: https://github.com/suda-morris/am2302_rmt/tree/master
+version: 1.1.0
