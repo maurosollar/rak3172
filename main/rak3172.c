@@ -44,8 +44,6 @@ void send_at(const char *cmd, int wait_ms) {
 
 void app_main(void)
 {
-
-
     am2302_config_t am2302_config = {
         .gpio_num = AM2302_GPIO,
     };
@@ -73,32 +71,21 @@ void app_main(void)
         .flow_ctrl = UART_HW_FLOWCTRL_DISABLE
     };
 
-    // Inicializa a UART
     uart_param_config(UART_PORT, &uart_config);
     uart_set_pin(UART_PORT, TX_PIN, RX_PIN, UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE);
     uart_driver_install(UART_PORT, BUF_SIZE * 2, 0, 0, NULL, 0);
 
-    uint8_t data[BUF_SIZE];
-    int len = uart_read_bytes(UART_PORT, data, BUF_SIZE - 1, pdMS_TO_TICKS(500));
-    if (len > 0) {
-        data[len] = '\0';
-        ESP_LOGI(TAG, "<< %s", (char *)data);
-    } else {
-        ESP_LOGW(TAG, "<< (sem resposta)");
-    }
-
     send_at("AT\r\n", 500);
-    //send_at("AT+VER?\r\n", 500);
+    send_at("AT+VER=?\r\n", 500);
     send_at("AT+NWM=1\r\n", 500);
     send_at("AT+NJM=1\r\n", 500);    
     send_at("AT+CLASS=A\r\n", 500);  
     send_at("AT+BAND=6\r\n", 500);
-    send_at("AT+TXP=20\r\n", 500);
+    send_at("AT+TXP=0\r\n", 500);
     send_at("AT+DEVEUI=5E9D1E0857CF25F1\r\n", 500);  
     send_at("AT+APPEUI=5E9D1E0857CF25F1\r\n", 500);  
     send_at("AT+APPKEY=F921D50CD7D02EE3C5E6142154F274B2\r\n", 500);     
     send_at("AT+JOIN=1:0:10:8\r\n", 500);
-    //send_at("AT+SEND=2:12345678\r\n", 500);   
 
     while (true) {
         ESP_ERROR_CHECK(am2302_read_temp_humi(sensor, &temperature, &humidity));
@@ -117,7 +104,6 @@ void app_main(void)
         char at_cmd[32];
         snprintf(at_cmd, sizeof(at_cmd), "AT+SEND=2:%s\r\n", hex_payload);
         send_at(at_cmd, 500);
-        //send_at("AT+SEND=2:12345678\r\n", 500);
         vTaskDelay(pdMS_TO_TICKS(5000));
 
     }
