@@ -6,6 +6,7 @@ on:
       - "main"
     paths:
       - "html-version/**"
+    workflow_dispatch:
 
 jobs:
   deploy:
